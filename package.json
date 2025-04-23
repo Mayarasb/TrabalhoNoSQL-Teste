@@ -1,0 +1,35 @@
+{
+  "name": "trabalhonosql",
+  "version": "1.0.0",
+  "description": "Trabalho de Banco de Dados Não Relacional",
+  "main": "index.html",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./api/index.js",
+    "dev": "nodemon ./api/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devDavyRibeiro/TrabalhoNoSQL.git"
+  },
+  "keywords": [
+    "back-end",
+    "api"
+  ],
+  "author": "Davy, Mayara, Ariele e Vanessa",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/devDavyRibeiro/TrabalhoNoSQL/issues"
+  },
+  "homepage": "https://github.com/devDavyRibeiro/TrabalhoNoSQL#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "mongodb": "^6.15.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}

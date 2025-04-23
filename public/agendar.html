@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agendar Hospedagem</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <img src="/img/pet-hotel_10753981 (1).png" alt="Logo">
+      <nav>
+        <ul>
+          <li><a href="index.html">Página Inicial</a></li>
+          <li><a href="cadastro.html">Cadastro de Pet</a></li>
+          <li><a href="agendar.html">Reservar Hospedagem</a></li>
+          <li><a href="consultarReservas.html">Consulta de Reservas</a></li>
+          <li><a href="consultarPets.html">Consulta Pets</a></li>
+          <li><a href="atualizar.html">Atualizar/Remover Reserva</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+      <div class="container">
+        <h1>Reserva de Hospedagem</h1>
+        <form id="form-agendamento" action="#" method="POST">
+          <label for="nome_cliente">Nome do Cliente:</label>
+          <input type="text" id="nome_cliente" name="nome_cliente" required>
+      
+          <label for="cpf_cliente">CPF Tutor:</label>
+          <input type="text" id="cpf_tutor" name="cpf_tutor" required>
+      
+          <label for="nome_pet">Nome do Pet:</label>
+          <input type="text" id="nome_pet" name="nome_pet" required>
+      
+          <label for="data_consulta">Data de Entrada:</label>
+          <input type="date" id="data_entrada" name="data_entrada" required>
+      
+          <label for="data_saida">Data de saída:</label>
+          <input  type="date" id="data_saida" name="data_saida" required>
+            <!-- Os horários serão preenchidos pelo JS -->
+          </input>
+      
+          
+            
+          </select>
+      
+          <br><br>
+          <button type="submit">Reservar</button>
+        </form>
+      </div>
+      
+</body>
+
+<script>
+
+const horariosDisponiveis = [
+    "08:00","08:30", "09:00","09:30", "10:00","10:30", "11:00",
+    "13:00", "14:30","08:00", "15:00","15:30", "16:00","17:00","18:00"
+  ];
+
+  // Simulando horários já agendados
+  const horariosIndisponiveis = ["10:00", "14:00","16:00","18:00"];
+
+  const selectHora = document.getElementById("hora_entrada");
+
+  horariosDisponiveis.forEach(hora => {
+    const option = document.createElement("option");
+    option.value = hora;
+    option.textContent = horariosIndisponiveis.includes(hora)
+      ? `${hora} - Indisponível`
+      : hora;
+
+    if (horariosIndisponiveis.includes(hora)) {
+      option.disabled = true;
+      option.style.color = "#999";
+    }
+
+    selectHora.appendChild(option);
+  });
+</script>
+</html>
