@@ -44,3 +44,23 @@ use('hotelpet')
 db.estadia.find()
 
 
+const connectDB = require('../config/db');
+
+async function findPetsByFilters(filters) {
+  const db = await connectDB();
+  const query = {};
+
+  if (filters.cpf_tutor) query.cpf_tutor = filters.cpf_tutor;
+  if (filters.especie) query.especie = filters.especie;
+  if (filters.porte) query.porte = filters.porte;
+
+  if (filters.idade_min || filters.idade_max) {
+    query.idade = {};
+    if (filters.idade_min) query.idade.$gte = parseInt(filters.idade_min);
+    if (filters.idade_max) query.idade.$lte = parseInt(filters.idade_max);
+  }
+
+  return db.collection('pets').find(query).toArray();
+}
+
+module.exports = { findPetsByFilters };

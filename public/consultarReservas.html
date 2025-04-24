@@ -6,17 +6,76 @@
   <title>Consultar Reservas</title>
   <link rel="stylesheet" href="css/style.css" />
   <style>
-    .filtro-form {
-      display: none;
-      margin-top: 20px;
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f7f7f7;
     }
-    .botao-filtro {
-      margin-right: 10px;
-      margin-bottom: 10px;
+
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 30px;
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    input {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .btn-consultar {
+      padding: 12px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .btn-consultar:hover {
+      background-color: #45a049;
+    }
+
+    #resultado-reservas {
+      margin-top: 30px;
+    }
+
+    #resultado-reservas div {
+      background: #f9f9f9;
+      padding: 15px;
+      border-radius: 6px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
     }
   </style>
 </head>
 <body>
+
   <header>
     <div class="header-container">
       <img src="/img/pet-hotel_10753981 (1).png" alt="Logo" />
@@ -33,50 +92,33 @@
     </div>
   </header>
 
+
   <div class="container">
     <h1>Consultar Reservas</h1>
 
-    <div>
-      <button class="botao-filtro" onclick="mostrarFiltro('cpf')">Consultar por CPF</button>
-      <button class="botao-filtro" onclick="mostrarFiltro('data')">Consultar por Data</button>
-      <button class="botao-filtro" onclick="mostrarFiltro('status')">Consultar por Status</button>
-    </div>
+    <form id="form-filtros">
+      <div>
+        <label for="cpf">CPF do Tutor:</label>
+        <input type="text" id="cpf" name="cpf">
+      </div>
 
-    <form id="form-cpf" class="filtro-form">
-      <label for="cpf">CPF do Tutor:</label>
-      <input type="text" id="cpf" name="cpf" required>
-      <button type="submit">Consultar</button>
+      <div>
+        <label for="dataInicio">Data de Início:</label>
+        <input type="date" id="dataInicio" name="dataInicio">
+      </div>
+
+      <div>
+        <label for="dataFim">Data de Fim:</label>
+        <input type="date" id="dataFim" name="dataFim">
+      </div>
+
+      <button type="submit" class="btn-consultar">Consultar</button>
     </form>
 
-    <form id="form-data" class="filtro-form">
-      <label for="dataInicio">Data de Início:</label>
-      <input type="date" id="dataInicio" name="dataInicio">
-      <label for="dataFim">Data de Fim:</label>
-      <input type="date" id="dataFim" name="dataFim">
-      <button type="submit">Consultar</button>
-    </form>
-
-    <form id="form-status" class="filtro-form">
-      <label for="status">Status:</label>
-      <select id="status" name="status">
-        <option value="">-- Selecione --</option>
-        <option value="ativa">Ativa</option>
-        <option value="finalizada">Finalizada</option>
-        <option value="cancelada">Cancelada</option>
-      </select>
-      <button type="submit">Consultar</button>
-    </form>
-
-    <div id="resultado-reservas" style="margin-top: 30px;"></div>
+    <div id="resultado-reservas"></div>
   </div>
 
   <script>
-    function mostrarFiltro(tipo) {
-      document.querySelectorAll('.filtro-form').forEach(form => form.style.display = 'none');
-      document.getElementById('form-' + tipo).style.display = 'block';
-      document.getElementById('resultado-reservas').innerHTML = '';
-    }
-
     async function buscarReservas(queryParams) {
       const resultado = document.getElementById('resultado-reservas');
       try {
@@ -89,13 +131,12 @@
         }
 
         resultado.innerHTML = '<h3>Reservas Encontradas</h3>' + reservas.map(reserva => `
-          <div style="margin-bottom: 15px;">
+          <div>
             <p><strong>Tutor:</strong> ${reserva.nome_tutor}</p>
             <p><strong>Pet:</strong> ${reserva.nome_pet}</p>
             <p><strong>Data Início:</strong> ${reserva.data_inicio}</p>
             <p><strong>Data Fim:</strong> ${reserva.data_fim}</p>
             <p><strong>Status:</strong> ${reserva.status}</p>
-            <hr>
           </div>
         `).join('');
       } catch (error) {
@@ -103,26 +144,19 @@
       }
     }
 
-    document.getElementById('form-cpf').addEventListener('submit', function(e) {
+    document.getElementById('form-filtros').addEventListener('submit', function(e) {
       e.preventDefault();
-      const cpf = document.getElementById('cpf').value;
-      buscarReservas(`cpf=${cpf}`);
-    });
-
-    document.getElementById('form-data').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const inicio = document.getElementById('dataInicio').value;
-      const fim = document.getElementById('dataFim').value;
       const query = new URLSearchParams();
-      if (inicio) query.append('dataInicio', inicio);
-      if (fim) query.append('dataFim', fim);
-      buscarReservas(query.toString());
-    });
 
-    document.getElementById('form-status').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const status = document.getElementById('status').value;
-      buscarReservas(`status=${status}`);
+      const cpf = document.getElementById('cpf').value.trim();
+      const dataInicio = document.getElementById('dataInicio').value;
+      const dataFim = document.getElementById('dataFim').value;
+
+      if (cpf) query.append('cpf', cpf);
+      if (dataInicio) query.append('dataInicio', dataInicio);
+      if (dataFim) query.append('dataFim', dataFim);
+
+      buscarReservas(query.toString());
     });
   </script>
 </body>

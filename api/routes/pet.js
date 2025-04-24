@@ -18,4 +18,10 @@ router.put("/:id", putPets) //atualização
 
 router.delete("/:id", deletePets) // exclusão
 
+
+
+
+
+
+
 export default router

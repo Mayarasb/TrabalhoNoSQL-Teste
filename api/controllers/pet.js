@@ -7,6 +7,7 @@ export const getPets = async (req, res) => {
     .toArray(); // transformando tudo em um Array
     res.status(200).json(pets); // dando o resultado em forma de JSON e dando status 200
 }
+Array.forEach()
 export const getPetsID = ()=>{
 
 }
@@ -53,4 +54,21 @@ export const deletePets = async (req, res) => {
         res.status(500).json({ mensagem: 'Erro ao deletar o pet.', erro });
     }
 };
+
+
+const { findPetsByFilters } = require('../models/petModel');
+
+async function consultarPets(req, res) {
+  try {
+    const filtros = req.query;
+    const pets = await findPetsByFilters(filtros);
+    res.json(pets);
+  } catch (error) {
+    console.error('Erro ao consultar pets:', error);
+    res.status(500).json({ erro: 'Erro ao buscar pets' });
+  }
+}
+
+module.exports = { consultarPets };
+
 
