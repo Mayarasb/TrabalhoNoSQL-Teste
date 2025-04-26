@@ -31,13 +31,13 @@ export const validatePet = [
   check("sexo")
     .notEmpty()
     .withMessage("O sexo é obrigatório")
-    .isIn(["Macho", "Fêmea"])
+    .isIn(["macho", "femea"])
     .withMessage("Sexo deve ser 'Macho' ou 'Fêmea'"),
 
   check("porte")
     .notEmpty()
     .withMessage("O porte é obrigatório")
-    .isIn(["Pequeno", "Médio", "Grande"])
+    .isIn(["pequeno", "medio", "grande"])
     .withMessage("Porte deve ser 'Pequeno', 'Médio' ou 'Grande'"),
 
   // Data de nascimento e observações são opcionais

@@ -16,6 +16,7 @@ app.use('/agendas', agendaRouter);  // Agora o prefixo '/agenda' será usado par
 
 
 
+
 connectMongoDB(app).then(() => {
     app.listen(PORT, () => {
         console.log(`Servidor rodando na porta ${PORT}!`)

@@ -31,36 +31,29 @@ db.pet.find()
 
 use('hotelpet')
 db.estadia.insertOne({
-    horario_entrada: new Date(),
-    horario_saida: null, //isso significa que o animal não saiu
+     //isso significa que o animal não saiu
+     cpf_tutor: "48524893869",
+    data_entrada: new Date("9-12-2000"),
+    data_saida: new Date("10-12-2000"),
+
     pet: {
         _id: {
-            $oid: "68014f9a34b0168be07b585e"
+            $oid: "680a99407c66932cae04f79f"
           },
     }
 })
 
+const dataAtual = new Date()
 use('hotelpet')
-db.estadia.find()
+db.estadia.find({
+    $or: [
+        {
+          data_entrada: { $gte: dataAtual},
+          data_saida: { $lte: dataAtual }
+        },
+    ]
+})
 
+use('hotelpet')
+db.cliente.findOne({cpfCliente:'47251787806'})
 
-const connectDB = require('../config/db');
-
-async function findPetsByFilters(filters) {
-  const db = await connectDB();
-  const query = {};
-
-  if (filters.cpf_tutor) query.cpf_tutor = filters.cpf_tutor;
-  if (filters.especie) query.especie = filters.especie;
-  if (filters.porte) query.porte = filters.porte;
-
-  if (filters.idade_min || filters.idade_max) {
-    query.idade = {};
-    if (filters.idade_min) query.idade.$gte = parseInt(filters.idade_min);
-    if (filters.idade_max) query.idade.$lte = parseInt(filters.idade_max);
-  }
-
-  return db.collection('pets').find(query).toArray();
-}
-
-module.exports = { findPetsByFilters };
